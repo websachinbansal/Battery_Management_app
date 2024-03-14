@@ -17,7 +17,7 @@ class _BlueConnectState extends State<BlueConnect> {
   // List<List<int>> lastThreeConvertedArrays = [];
   List<int> dataBuffer = [];
   List<int> latestData = [];
-  DataStorage dataStore = DataStorage();
+  // DataStorage dataStore = DataStorage();
 
   @override
   void initState() {
@@ -113,13 +113,13 @@ class _BlueConnectState extends State<BlueConnect> {
             dataBuffer.addAll(value);
             // print('DataBuffer: $dataBuffer');
 
-            if (dataBuffer.length >= 30) {
+            if (dataBuffer.length >= 40) {
               List<int> processedData = convertTo16Bit(dataBuffer);
               print('Latest Processed Data: $processedData');
 
               setState(() {
                 latestData = processedData;
-                dataStore.storeData(latestData);
+                // dataStore.storeData(latestData);
               });
               dataBuffer.clear();
             }
