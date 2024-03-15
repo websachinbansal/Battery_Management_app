@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'application/pages/custom_bottom_navigation.dart';
 import 'model/data/data_reading.dart';
 
 class BlueConnect extends StatefulWidget {
@@ -113,7 +114,7 @@ class _BlueConnectState extends State<BlueConnect> {
             dataBuffer.addAll(value);
             // print('DataBuffer: $dataBuffer');
 
-            if (dataBuffer.length >= 40) {
+            if (dataBuffer.length >= 30) {
               List<int> processedData = convertTo16Bit(dataBuffer);
               print('Latest Processed Data: $processedData');
 
@@ -140,7 +141,7 @@ class _BlueConnectState extends State<BlueConnect> {
         for (BluetoothCharacteristic c in characteristics) {
           try {
             List<int> value = await c.read();
-            print(value);
+            print( 'Reading the properties of char $value');
           } catch (e) {
             print("Failed to read characteristic ${c.uuid.toString()}: $e");
           }
@@ -150,11 +151,21 @@ class _BlueConnectState extends State<BlueConnect> {
       print('Error in discovering the services $e');
     }
 
+
+  try {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      );
+    } catch (e) {
+      print('Error on navigation');
+    }
+      
     // Disconnect from device using this function **************************
     // await device.disconnect();
 
     // cancel to prevent duplicate listeners
-    // subscription.cancel();
+    subscription.cancel();
   }
 
   @override
